@@ -1,3 +1,5 @@
+from pymongo import MongoClient
+import os
 from flask import Flask, request, jsonify
 import json, os
 
@@ -29,3 +31,26 @@ def submit_item():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
 
+
+# --- Mongo init (uses MONGO_URI env or defaults) ---
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/flask_todo")
+_mclient = MongoClient(MONGO_URI)
+_mdb = _mclient.get_default_database() if "/" in MONGO_URI.split("//",1)[-1] else _mclient["flask_todo"]
+_items = _mdb["items"]
+
+@app.post("/submittodoitem")
+def submit_todo_item():
+    """
+    Expects JSON:
+    { "itemName": "...", "itemDescription": "..." }
+    Stores in MongoDB collection 'items'.
+    """
+    payload = (request.get_json(silent=True) or {})
+    name = payload.get("itemName")
+    desc = payload.get("itemDescription", "")
+    if not name:
+        return jsonify({"ok": False, "error": "itemName is required"}), 400
+
+    doc = {"itemName": name, "itemDescription": desc}
+    res = _items.insert_one(doc)
+    return jsonify({"ok": True, "id": str(res.inserted_id), "item": doc}), 201
