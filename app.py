@@ -29,3 +29,9 @@ def submit_item():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
 
+
+from flask import render_template
+@app.get("/todo")
+def todo_page():
+    return render_template("todo.html")
+
