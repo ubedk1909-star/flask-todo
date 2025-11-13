@@ -1,0 +1,10 @@
+
+---
+
+### 🔹 **data/api.json**
+```json
+{
+  "status": "ok",
+  "message": "Welcome to Flask ToDo API"
+}
+
