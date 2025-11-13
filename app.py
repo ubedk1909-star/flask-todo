@@ -32,6 +32,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
 
 
+<<<<<<< HEAD
 # --- Mongo init (uses MONGO_URI env or defaults) ---
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/flask_todo")
 _mclient = MongoClient(MONGO_URI)
@@ -54,3 +55,10 @@ def submit_todo_item():
     doc = {"itemName": name, "itemDescription": desc}
     res = _items.insert_one(doc)
     return jsonify({"ok": True, "id": str(res.inserted_id), "item": doc}), 201
+=======
+from flask import render_template
+@app.get("/todo")
+def todo_page():
+    return render_template("todo.html")
+
+>>>>>>> master_1
