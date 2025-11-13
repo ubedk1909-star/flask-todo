@@ -1,10 +1,5 @@
-
----
-
-### 🔹 **data/api.json**
-```json
 {
   "status": "ok",
-  "message": "Welcome to Flask ToDo API"
+  "message": "API message updated from Tutedude_new branch",
+  "version": "v2"
 }
-
